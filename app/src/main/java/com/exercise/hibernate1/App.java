@@ -19,7 +19,7 @@ public class App{
 			switch(choice){
 				case 1: 
 					System.out.println("\nMODE: ADD PERSON");
-					options.optionCreatePerson();
+					options.createPerson();
 					break;
 				case 2:
 					//options.optionDeletePerson();

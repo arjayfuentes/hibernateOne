@@ -17,8 +17,9 @@ public class Options{
 	private static int landlineLength=6;
 	private static int mobileLength=11;
 
-	public void optionCreatePerson(){
-		System.out.println("\n============= BASIC INFO ============");
+
+    public void createPerson(){
+    	System.out.println("\n============= BASIC INFO ============");
 
 		String firstName = check.inputString("first name");
 		String middleName = check.inputString("middle name");
@@ -29,23 +30,24 @@ public class Options{
 		boolean employed = check.inputEmployed();
 		float gwa = check.inputGwa();
 		Date dateHired = check.inputDate("date Hired");
+		
+		System.out.println("\n============== ADDRESS ===============");
+		int houseNo = check.inputNumber("house number");
+		String street = check.inputString("street");
+		String barangay = check.inputString("barangay");
+		String city = check.inputString("city");
+		int zipCode = check.inputNumber("zipCode", zipCodeLength);
 
+		Address address = new Address(houseNo,street,barangay,city,zipCode);
 
+    	Person person = new Person(firstName, middleName,lastName, suffix, title,
+			birthDate, employed,gwa, dateHired, address);
 
-		Person person = new Person(firstName,middleName,lastName,suffix,title,
-						birthDate,employed,gwa, dateHired);
+    	personService.addPerson(person);
+    	System.out.println("Person created and added to database. ");
+    }
 
-		personService.addPerson(person);
-		System.out.println("Person created and added to database. ");
-
-	}
-
-
-
-
-
-
-
+ 
 
 
 

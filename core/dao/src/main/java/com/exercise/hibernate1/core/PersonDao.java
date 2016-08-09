@@ -6,26 +6,18 @@ import com.exercise.hibernate1.core.Person;
 
 public class PersonDao {
 
-	
+
 	public void addPersonToDatabase(Person person){	
-		Transaction transaction = null;
-		Session session = FactoryBuilder.getSessionFactory().openSession();
-		try{
-			transaction = session.beginTransaction();
-			session.save(person);
-			session.getTransaction().commit();
-		}catch(RuntimeException e){
-			if(transaction != null){
-				transaction.rollback();
-			}
-			e.printStackTrace();
-		}finally{
-			session.close();
-		}
-	}
-	
-	
+		Session session = HibernatePersistence.getSessionFactory().openSession();
+		session.beginTransaction();
 		
+		session.save(person);
+		session.getTransaction().commit();
+        session.close();        
+        HibernatePersistence.shutdown();
+
+	}
+
 	
 
 }

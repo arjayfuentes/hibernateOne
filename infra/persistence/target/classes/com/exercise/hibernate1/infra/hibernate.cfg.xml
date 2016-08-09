@@ -14,8 +14,10 @@
 
         <property name="show_sql">true</property>
 
-        <property name="hibernate.hbm2ddl.auto">create</property>
-        
-        <mapping resource="com/exercise/hibernate1/infra/project.hbm.xml"/>
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <mapping resource="com/exercise/hibernate1/infra/Person.hbm.xml"/>
+       
+
     </session-factory>
 </hibernate-configuration>

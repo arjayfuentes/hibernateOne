@@ -14,11 +14,12 @@ public class Person {
 	private boolean employed;
 	private float gwa;
 	private Date dateHired;
+	private Address address;
 
 	public Person(){}
 
 	public Person(String firstName, String middleName,String lastName, String suffix, String title,
-		   Date birthDate,boolean employed,float gwa, Date dateHired){
+		   Date birthDate,boolean employed,float gwa, Date dateHired, Address address){
 
 		this.firstName=firstName;
 		this.middleName=middleName;
@@ -29,6 +30,8 @@ public class Person {
 		this.employed=employed;
 		this.gwa=gwa;
 		this.dateHired=dateHired;
+		this.address=address;
+		
 	}
 
 	public int getId() {
@@ -105,4 +108,13 @@ public class Person {
 		this.dateHired = dateHired;
 	}
 
+	public Address getAddress() {
+		return address;
+	}
+	
+	public void setAddress(Address address) {
+		this.address = address;
+	}
+
+	
 }
