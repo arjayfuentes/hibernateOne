@@ -16,16 +16,18 @@ public class App{
 				read.next();
 			}
 			int choice=read.nextInt();
+			read.nextLine();
 			switch(choice){
 				case 1: 
 					System.out.println("\nMODE: ADD PERSON");
-					options.createPerson();
+					options.optionAddPerson();
 					break;
 				case 2:
-					//options.optionDeletePerson();
+					options.optionDeletePerson();
 					break;
 				case 3:
-					//options.updatePerson();
+					System.out.println("\nMODE: UPDATE PERSON");
+					options.optionUpdatePerson();
 					break;
 				case 4:
 					//options.listByGwa();

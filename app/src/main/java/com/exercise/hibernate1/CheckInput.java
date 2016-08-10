@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.validator.routines.EmailValidator;
 
 public class CheckInput {
 	
@@ -22,7 +23,35 @@ public class CheckInput {
 		read.nextLine(); 
 		return number;
 	}
-	
+
+	public long inputIdNumber(String numberType){
+		long number=0;		
+		System.out.printf("Enter %s: ",numberType);
+		while (!read.hasNextLong()) {
+			System.out.printf("Not a number! Enter %s: ",numberType);
+			read.next();
+		}
+		number = read.nextLong();
+		read.nextLine(); 
+		return number;
+	}
+
+	public int inputNumber(String numberType, int min, int max){
+		int number=0;		
+		do {
+			System.out.print("Enter"+numberType+"("+min+"-"+max+"): ");
+			while (!read.hasNextInt()) {
+				System.out.printf("Not a number! Enter"+numberType+"("+min+"-"+max+"): ");
+				read.next();
+			}
+			number = read.nextInt();
+			if(number<min || number> max){
+				System.out.print("Invalid Input! ");
+			}
+		} while (number<min || number >max);
+	  	return number;
+	}
+
 	public int inputNumber(String numberType,int length){
 		int number=0;
 		do {
@@ -40,8 +69,9 @@ public class CheckInput {
 		return number;
 	}
 	
-	public long inputContacNumber(String contactType,int length){
+	public String inputContactNumber(String contactType,int length){
 		long number=0;
+		String numberString=null;
 		do {
 			System.out.printf("Enter %s (%d digits): ",contactType,length);
 			while (!read.hasNextLong()) {
@@ -54,7 +84,10 @@ public class CheckInput {
 				System.out.print("Invalid length of integers. ");
 			}
 		} while (Long.toString(number).length()!=length);
-		return number;
+
+		numberString=Long.toString(number);
+
+		return numberString;
 	}
 	
 	public String inputString(String stringType){
@@ -69,6 +102,24 @@ public class CheckInput {
 		string=string.trim();
 		string=StringUtils.capitalize(string);
 		return string;
+	}
+
+	public String inputEmail(){
+		EmailValidator emailValid = EmailValidator.getInstance();
+		boolean validEmail =false;
+		String email=null;
+		while(validEmail==false){
+			System.out.print("Enter email address:");
+			email=read.next();
+			if(emailValid.isValid(email)){
+				validEmail=true;
+			}
+			else{
+				System.out.print("Invalid Email");
+			}
+
+		}
+		return email;
 	}
 	
 	public float inputGwa(){
@@ -91,29 +142,28 @@ public class CheckInput {
 		 return (float) Float.valueOf(twoDForm.format(input));	
 	}
 	
-
-	public boolean inputEmployed(){
-		System.out.print("Employed? (Y/N): ");
-		boolean employed = false;
+	public boolean inputYesOrNo(String askBoolean){
+		System.out.print(askBoolean+" (Y/N) ");
+		boolean ask = false;
 		String input = read.next();
 		boolean correct=false;
 		while(correct==false){
 			if(input.equalsIgnoreCase("Y")){
 				correct= true;
-				employed=true;
+				ask=true;
 				break;
 			}
 			else if(input.equalsIgnoreCase("N")){
 				correct= true;
-				employed=false;
+				ask=false;
 				break;
 			}
 			else{
-			System.out.print("Invalid input. Re-enter if employed (Y/N): ");
+			System.out.print("Invalid input. Only (Y/N) or (y/n) : ");
 			}
 			input = read.next();
 		}
-		return employed;
+		return ask;
 	}
 
 	public Date inputDate(String dateType){

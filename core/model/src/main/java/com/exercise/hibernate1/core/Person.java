@@ -1,10 +1,12 @@
 package com.exercise.hibernate1.core;
 
 import java.util.Date;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Person {
 
-	private int id;
+	private long personId;
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -15,6 +17,7 @@ public class Person {
 	private float gwa;
 	private Date dateHired;
 	private Address address;
+	private List<Contacts> contacts= new ArrayList<Contacts>();
 
 	public Person(){}
 
@@ -34,12 +37,12 @@ public class Person {
 		
 	}
 
-	public int getId() {
-		return id;
+	public long getPersonId() {
+		return personId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setPersonId(long personId) {
+		this.personId = personId;
 	}
 
 	public String getFirstName() {
@@ -73,29 +76,35 @@ public class Person {
 	public void setSuffix(String suffix) {
 		this.suffix = suffix;
 	}
+
 	public String getTitle() {
 		return title;
 	}
+
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public Date getbirthDate() {
+
+	public Date getBirthDate() {
 		return birthDate;
 	}
 
-	public void setbirthDate(Date birthDate) {
+	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 
 	public boolean isEmployed() {
 		return employed;
 	}
+
 	public void setEmployed(boolean employed) {
 		this.employed = employed;
 	}
+
 	public float getGwa() {
 		return gwa;
 	}
+	
 	public void setGwa(float gwa) {
 		this.gwa = gwa;
 	}
@@ -114,6 +123,14 @@ public class Person {
 	
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+
+	public List<Contacts> getContacts(){
+		return contacts;
+	}
+	
+	public void setContacts(List<Contacts> contacts){
+		this.contacts = contacts;
 	}
 
 	

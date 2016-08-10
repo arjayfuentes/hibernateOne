@@ -2,7 +2,7 @@ package com.exercise.hibernate1.core;
 
 public class Address{
 
-	private int id;
+	private long addressId;
 	private int houseNo;
 	private String street;
 	private String barangay;
@@ -19,12 +19,12 @@ public class Address{
 		this.zipCode = zipCode;
 	}
 
-	public int getId() {
-		return id;
+	public long getAddressId() {
+		return addressId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setAddressId(long addressId) {
+		this.addressId = addressId;
 	}
 
 	public int getHouseNo(){
