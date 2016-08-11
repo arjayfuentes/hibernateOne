@@ -6,7 +6,7 @@
 <hibernate-mapping>
 	<class name="com.exercise.hibernate1.core.Address" table="Address">
       <id name="addressId" type="long" column="addressId">
-         <generator class="native"/>
+         <generator class="increment"/>
       </id>
       <property name="houseNo" column="houseNo" type="int"/>
       <property name="street" column="street" type="string"/>

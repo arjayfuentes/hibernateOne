@@ -13,60 +13,76 @@ public class PersonDao {
 	public void addPersonToDatabase(Person person, List<Contacts> contacts){	
 		Session session = factory.openSession();
 		try{
-        	session.beginTransaction();
+      session.beginTransaction();
 			person.setContacts(contacts);
-         	Long personId = (Long) session.save(person);
-         	session.getTransaction().commit();
-      	}catch (HibernateException e) {
+      Long personId = (Long) session.save(person);
+      session.getTransaction().commit();
+    }catch (HibernateException e) {
 			e.printStackTrace(); 
-      	}finally {
-        	session.close();
-      	}
+    }finally {
+      session.close();
     }
+  }
 	
 	public void deletePersonFromDatabase(long personId){	
 		Session session = factory.openSession();
 		try{
-        	session.beginTransaction();
+      session.beginTransaction();
 			Person person = (Person) session.get(Person.class, personId);
-
-			session.delete(person);          
-         	session.getTransaction().commit();
-      	}catch (HibernateException e) {
+      session.delete(person);          
+      session.getTransaction().commit();
+    }catch (HibernateException e) {
 			e.printStackTrace(); 
-      	}finally {
-        	session.close();
-      	}
+    }finally {
+      session.close();
+    }
 	}
+
+  public void updatePersonToDatabase(Person person){  
+    Session session = factory.openSession();
+    try{
+          session.beginTransaction();
+          session.update(person);
+          session.getTransaction().commit();
+        }catch (HibernateException e) {
+      e.printStackTrace(); 
+        }finally {
+          session.close();
+        }
+  }
 
 	public Person getPersonFromDatabase(long personId){	
 		Session session = factory.openSession();
 		Person person= null;
 		try{
-        	session.beginTransaction();
-        	person = (Person) session.get(Person.class, personId);
-         	session.getTransaction().commit();
-      	}catch (HibernateException e) {
+      session.beginTransaction();
+      person = (Person) session.get(Person.class, personId);
+      session.getTransaction().commit();
+    }catch (HibernateException e) {
 			e.printStackTrace(); 
-      	}finally {
-        	session.close();
-      	}
-      	return person;
+    }finally {
+      session.close();
+    }
+    return person;
 	}
 
-
-	public void updatePersonToDatabase(Person person){	
-		Session session = factory.openSession();
-		try{
-        	session.beginTransaction();
-        	session.update(person);
-         	session.getTransaction().commit();
-      	}catch (HibernateException e) {
-			e.printStackTrace(); 
-      	}finally {
-        	session.close();
-      	}
-	}
+	public void updateAddressToDatabase(long personId, Address newAddress){
+    Session session = factory.openSession();
+    Transaction tx = null;
+    try{
+      tx = session.beginTransaction();
+      Person person =(Person)session.get(Person.class, personId);
+      Address address = person.getAddress();
+      person.setAddress(newAddress);
+      session.update(person);
+      tx.commit();
+    }catch (HibernateException e) {
+      if (tx!=null) tx.rollback();
+      e.printStackTrace();
+    }finally {
+      session.close();
+    }
+  }
 
   public Address getAddressFromDatabase(long personId){ 
     Session session = factory.openSession();
@@ -85,20 +101,61 @@ public class PersonDao {
         return address;
   }
 
-  public void updateAddressToDatabase(Address address, Person person){  
+  public void addContactToDatabase(long personId,Contacts addCon){
     Session session = factory.openSession();
+    Transaction tx = null;
     try{
-          session.beginTransaction();
-          person.setAddress(address);
-          session.update(address);
-          session.getTransaction().commit();
-        }catch (HibernateException e) {
-      e.printStackTrace(); 
-        }finally {
-          session.close();
-        }
+      tx = session.beginTransaction();
+      Person person =(Person)session.get(Person.class, personId);
+      person.getContacts().add(addCon);
+      session.update(person);
+      tx.commit();
+    }catch (HibernateException e) {
+      if (tx!=null) tx.rollback();
+      e.printStackTrace();
+    }finally {
+      session.close();
+    }
   }
 
-	
+  public List<Contacts> getContactsFromDatabase(long personId){
+    Session session = factory.openSession();
+    List<Contacts> contacts= null;
+    Transaction tx = null;
+    try{
+      tx = session.beginTransaction();
+      Person person =(Person)session.get(Person.class, personId);
+      contacts=person.getContacts();
+      tx.commit();
+    }catch (HibernateException e) {
+      if (tx!=null) tx.rollback();
+      e.printStackTrace();
+    }finally {
+      session.close();
+    }
+    return contacts;
+  }
+
+  /*
+  public void updateContactsInDatabase(long personId, List<Contacts> contacts){
+  	Session session = factory.openSession();
+    Person person = null;
+      try{
+        session.beginTransaction();
+        person = (Person) session.get(Person.class, personId);
+        person.setContacts(contacts);
+        session.saveOrUpdate(person);
+        session.getTransaction().commit();
+      }catch (HibernateException e) {
+        e.printStackTrace(); 
+      }finally {
+        session.close();
+      }
+    }
+
+
+*/
+
+
 
 }
