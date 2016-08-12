@@ -19,34 +19,24 @@ public class Options{
     	Person person = addPersonInfo();   // add personal info : basic and address
     	List<Contacts> contacts = addContactsInfo();   //add contact details
     	personService.addPerson(person,contacts);
-<<<<<<< HEAD
     	System.out.println("\n\t================ UPDATED LIST =================");
     	displayPersons();
-=======
 
->>>>>>> 193a60d7045634bc314544cf97059193641f11fa
     	System.out.println("Person successfully added to database");
     }
 
     //option2
     public void optionDeletePerson(){
-<<<<<<< HEAD
     	displayPersons();
     	long personId = checkIfPersonExist("ID number of the person you want to delete.");
     	personService.deletePerson(personId);
     	System.out.println("\n\t================ UPDATED LIST =================");
     	displayPersons();
-=======
-    	long personId = checkIfPersonExist("ID number of the person you want to delete.");
-    	personService.deletePerson(personId);
-
->>>>>>> 193a60d7045634bc314544cf97059193641f11fa
     	System.out.println("Person successfully deleted from the database");
     }
 
     //option3
     public void optionUpdatePerson(){
-<<<<<<< HEAD
     	displayPersons();
     	long personId = checkIfPersonExist("ID number of the person you want to update.");
     	boolean continueUpdate = true;
@@ -55,15 +45,6 @@ public class Options{
     	loop: while(continueUpdate==true){
     		System.out.println("\nChoose from the following:\n1-First Name\n2-Middle Name\n3-Last Name\n4-Suffix\n5-Title\n6-Date of Birth\n7-Currently Employed?\n8-GWA\n9-Date Hired\n10-Address\n11-All Information");
     		updateInfo = check.inputNumber(" corresponding number of the info you want to update.", 1, 11);
-=======
-    	long personId = checkIfPersonExist("ID number of the person you want to update.");
-    	boolean continueUpdate = true;
-    	int updateInfo=0;
-    	Person person = personService.getPersonById(personId);
-    	while(continueUpdate==true){
-    		System.out.println("\nChoose from the following:\n1-First Name\n2-Middle Name\n3-Last Name\n4-Suffix\n5-Title\n6-Date of Birth\n7-Currently Employed?\n8-GWA\n9-Date Hired\n10-Address\n11-All Information");
-    		updateInfo = check.inputNumber(" corresponding number of the info you want to update.", 1, 10);
->>>>>>> 193a60d7045634bc314544cf97059193641f11fa
 	    	switch(updateInfo){
 	    		case 1: 
 	    			String firstName = check.inputString("first name");
