@@ -6,7 +6,7 @@
 <hibernate-mapping>
 	<class name="com.exercise.hibernate1.core.Contacts" table="Contacts">
       <id name="contactId" type="long" column="contactId">
-         <generator class="native"/>
+         <generator class="increment"/>
       </id>
       <property name="contactType" column="contactType" type="string"/>
 	  <property name="contactValue" column="contactValue" type="string"/>

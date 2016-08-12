@@ -13,9 +13,9 @@
          <list-index column="index"/>
          <one-to-many class="com.exercise.hibernate1.core.Contacts"/>
       </list>
-      <property name="firstName" column="first_Name" type="string"/>
-      <property name="middleName" column="middle_Name" type="string"/>
-      <property name="lastName" column="lasts_Name" type="string"/>
+      <property name="firstName" column="first_name" type="string"/>
+      <property name="middleName" column="middle_name" type="string"/>
+      <property name="lastName" column="last_name" type="string"/>
       <property name="suffix" column="suffix" type="string"/>
       <property name="title" column="title" type="string"/>
       <property name="birthDate" column="date_of_Birth" type="date"/>

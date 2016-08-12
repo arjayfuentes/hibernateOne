@@ -93,7 +93,7 @@ public class Person {
 		this.birthDate = birthDate;
 	}
 
-	public boolean isEmployed() {
+	public boolean getEmployed() {
 		return employed;
 	}
 
