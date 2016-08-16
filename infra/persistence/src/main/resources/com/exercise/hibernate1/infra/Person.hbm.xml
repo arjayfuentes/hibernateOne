@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE hibernate-mapping PUBLIC 
+<!DOCTYPE hibernate-mapping PUBLIC
  "-//Hibernate/Hibernate Mapping DTD//EN"
- "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
    <class name="com.exercise.hibernate1.core.Person" table="Person">
       <id name="personId" type="long" column="personId">
-         <generator class="increment"/>
+          <generator class="increment"/>
       </id>
       <list name="contacts" cascade="all">
          <key column="personId"/>
@@ -18,8 +18,8 @@
       <property name="lastName" column="last_name" type="string"/>
       <property name="suffix" column="suffix" type="string"/>
       <property name="title" column="title" type="string"/>
-      <property name="birthDate" column="date_of_Birth" type="date"/>
-      <property name="employed" column="currently_Employed" type="boolean"/>
+      <property name="birthDate" column="date_of_birth" type="date"/>
+      <property name="employed" column="currently_employed" type="boolean"/>
       <property name="gwa" column="gwa" type="float"/>
       <property name="dateHired" column="date_hired" type="date"/>
       <many-to-one name="address" column="address" unique="true" class="com.exercise.hibernate1.core.Address" not-null="true" cascade="all"/>

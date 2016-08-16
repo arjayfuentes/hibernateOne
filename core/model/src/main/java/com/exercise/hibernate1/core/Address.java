@@ -8,6 +8,7 @@ public class Address{
 	private String barangay;
 	private String city;
 	private int zipCode;
+	private Person person;
 
 	public Address(){}
 
@@ -65,6 +66,14 @@ public class Address{
 
 	public void setZipCode(int zipCode) {
 		this.zipCode = zipCode;
+	}
+
+	public Person getPerson (){
+		return person;
+	}
+
+	public void setPerson(Person person){
+		this.person = person;
 	}
 
 }

@@ -6,51 +6,63 @@ import java.util.ArrayList;
 public class PersonService {
 
 	private PersonDao personDao = new PersonDao();
-
+	private ContactsDao contactsDao = new ContactsDao();
+	
 	//option1
-	public void addPerson(Person person, List<Contacts>contacts){									
-		personDao.addPersonToDatabase(person, contacts);
+	public void addPerson(Person person, List<Contacts> contacts){
+		person.setContacts(contacts);
+		personDao.addPersonDatabase(person);
 	}
 
 	//option2
-	public void deletePerson(long personId){														
+	public void deletePerson(long personId){
 		personDao.deletePersonFromDatabase(personId);
 	}
 
 	//option3
-	public void updatePerson(long personId, Person updatedPerson){									
+	public void updatePerson(long personId, Person updatedPerson){
 		personDao.updatePersonToDatabase(personId, updatedPerson);
 	}
 
-	//option7
-	public void addContact(long personId, String contactType, String contactValue){					
+	//option4 GWA
+	public List<Person> getPersonsGwa(){
+		List <Person> persons = personDao.getAllPersonsFromDatabase();
+		persons.sort((Person o1, Person o2)-> (int) ((o1.getGwa()*1000) - (o2.getGwa()*1000)));  //sort using lambda
+		return persons;
+	}
+
+	//option 4 date hired and last name
+	public List<Person> getPersons(String order){
+		List<Person> persons = new ArrayList<>();
+		if (order.equals("last_name")){
+			persons = personDao.getPersonsFromDatabase("last_name");
+		} else if (order.equals("date_hired")){
+			persons = personDao.getPersonsFromDatabase("date_hired");
+		} else {
+			persons = personDao.getPersonsFromDatabase("personId");
+		}
+		return persons;
+	}
+
+	//option5
+	public void addContact(long personId, String contactType, String contactValue){
 		Contacts addCon = new Contacts(contactType,contactValue);
-		personDao.addPersonContactDatabase(personId,addCon);
+		contactsDao.addPersonContactDatabase(personId,addCon);
 	}
 
-	//option8
+	//option6
 	public void updateContact(long contactId, String newContactValue){
-		personDao.updatePersonContactDatabase(contactId, newContactValue);
+		contactsDao.updatePersonContactDatabase(contactId, newContactValue);
 	}
 
-	//option9
-	public void deleteContact(long contactId){														
-		personDao.deletePersonContactDatabase(contactId);
-	}
-
-	//option 5 and 6
-	public List<Person> listPersonsOrder(String order){
-		return personDao.listPersonsOrder(order);
-	}
-
-	//to display all person
-	public List<Person> getAllPersons(){
-		return personDao.getAllPersonsFromDatabase();
+	//option7
+	public void deleteContact(long contactId){
+		contactsDao.deletePersonContactDatabase(contactId);
 	}
 
 	//validation if person exist
 	public boolean checkPersonIfExist(long personId){
-		if(personDao.getPersonFromDatabase(personId)== null){
+		if(personDao.getPersonById(personId)== null){
 			return false;
 		}
 		else{
@@ -58,9 +70,9 @@ public class PersonService {
 		}
 	}
 
-	//validation if contactId exist for a specific person	
+	//validation if contactId exist for a specific person
 	public boolean checkContactIfExist(long personId, long contactId){
-		List<Contacts> contacts = personDao.getContactsPerson(personId);
+		List<Contacts> contacts = contactsDao.getPersonContactsById(personId);
 		boolean contactExist = false;
 		loop: for(Contacts con : contacts){
 			if(con.getContactId()==contactId){
@@ -69,19 +81,25 @@ public class PersonService {
 			}
 		}
 		return contactExist;
-		
-	}		
+	}
 
-	//use in option3 in updating person info
+	/*--------------------------------------------  fetching data -------------------------------------------------*/
+
+	//getPerson's information
 	public Person getPersonById(long personId) {
-		return personDao.getPersonFromDatabase(personId);
+		return personDao.getPersonById(personId);
 	}
 
-	//display person's contacts
-	public List<Contacts> getContactsById(long personId){
-		return personDao.getContactsPerson(personId);
+	//get Person's Address
+	public Address getPersonAddressById(long personId){
+		return personDao.getPersonAddressById(personId);
 	}
-	
-	
+
+	//get Person's Contacts
+	public List<Contacts> getPersonContactsById(long personId){
+		return contactsDao.getPersonContactsById(personId);
+	}
+
+
 
 }

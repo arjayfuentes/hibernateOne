@@ -8,175 +8,159 @@ import com.exercise.hibernate1.core.*;
 
 public class PersonDao {
 
-	private static SessionFactory factory = HibernatePersistence.buildSessionFactory();
+	private static SessionFactory factory = FactoryBuilder.buildSessionFactory();
 
-  //option1
-	public void addPersonToDatabase(Person person, List<Contacts> contacts){	
+  	//option1
+	public void addPersonDatabase(Person person){
 		Session session = factory.openSession();
+		Transaction tx = null;
 		try{
-      session.beginTransaction();
-			person.setContacts(contacts);
-      Long personId = (Long) session.save(person);
-      session.getTransaction().commit();
-    }catch (HibernateException e) {
-			e.printStackTrace(); 
-    }finally {
-      session.close();
+			tx = session.beginTransaction();
+			session.persist(person);
+            tx.commit();
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
     }
-  }
-	
-  //option2
-	public void deletePersonFromDatabase(long personId){	
+
+    //option2
+    public void deletePersonFromDatabase(long personId){
 		Session session = factory.openSession();
+        Transaction tx = null;
 		try{
-      session.beginTransaction();
-			Person person = (Person) session.get(Person.class, personId);
-      session.delete(person);          
-      session.getTransaction().commit();
-    }catch (HibernateException e) {
-			e.printStackTrace(); 
-    }finally {
-      session.close();
+            tx = session.beginTransaction();
+            Person person = (Person) session.get(Person.class, personId);
+            session.delete(person);
+            tx.commit();
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
     }
-	}
 
-  //option3
-  public void updatePersonToDatabase(long personId, Person updatedPerson){
-    Session session = factory.openSession();
-    Transaction tx = null;
-    try{
-      tx = session.beginTransaction();
-      Person person =(Person)session.get(Person.class, personId);
-      person.setFirstName(updatedPerson.getFirstName());
-      person.setMiddleName(updatedPerson.getMiddleName());
-      person.setLastName(updatedPerson.getLastName());
-      person.setSuffix(updatedPerson.getSuffix());
-      person.setTitle(updatedPerson.getTitle());
-      person.setBirthDate(updatedPerson.getBirthDate());
-      person.setEmployed(updatedPerson.getEmployed());
-      person.setGwa(updatedPerson.getGwa());
-      person.setDateHired(updatedPerson.getDateHired());
-      person.setAddress(updatedPerson.getAddress());
-      session.update(person);
-      tx.commit();
-    }catch (HibernateException e) {
-      if (tx!=null) tx.rollback();
-      e.printStackTrace();
-    }finally {
-      session.close();
+    //option3
+    public void updatePersonToDatabase(long personId, Person updatedPerson){
+        Session session = factory.openSession();
+        Transaction tx = null;
+		Address address = null;
+        try{
+            tx = session.beginTransaction();
+            Person person =(Person)session.get(Person.class, personId);
+            person.setFirstName(updatedPerson.getFirstName());
+            person.setMiddleName(updatedPerson.getMiddleName());
+            person.setLastName(updatedPerson.getLastName());
+            person.setSuffix(updatedPerson.getSuffix());
+            person.setTitle(updatedPerson.getTitle());
+            person.setBirthDate(updatedPerson.getBirthDate());
+            person.setEmployed(updatedPerson.getEmployed());
+            person.setGwa(updatedPerson.getGwa());
+            person.setDateHired(updatedPerson.getDateHired());
+            person.setAddress(updatedPerson.getAddress());
+            session.update(person);
+		    tx.commit();
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
     }
-  }
 
-  //option7
-  public void addPersonContactDatabase(long personId,Contacts addCon){
-    Session session = factory.openSession();
-    Transaction tx = null;
-    try{
-      tx = session.beginTransaction();
-      Person person =(Person)session.get(Person.class, personId);
-      person.getContacts().add(addCon);
-      session.update(person);
-      tx.commit();
-    }catch (HibernateException e) {
-      if (tx!=null) tx.rollback();
-      e.printStackTrace();
-    }finally {
-      session.close();
+    //option 4 GWA
+    public List<Person> getAllPersonsFromDatabase(){
+        Session session = factory.openSession();
+        Transaction tx = null;
+        List<Person> persons = new ArrayList<>();
+        try{
+            tx = session.beginTransaction();
+            persons = session.createQuery("from Person").list();
+            tx.commit();
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+        return persons;
     }
-  }
 
-  //option8
-  public void updatePersonContactDatabase(long contactId, String newContactValue){
-    Session session = factory.openSession();
-    Transaction tx = null;
-    try{
-      tx = session.beginTransaction();
-      Contacts contacts = (Contacts)session.get(Contacts.class, contactId);
-      contacts.setContactValue(newContactValue);
-      session.update(contacts);
-      tx.commit();
-    }catch(RuntimeException e){
-      e.printStackTrace();
-    }finally{
-      session.close();
+	//options 4 date hired and last name
+	public List<Person> getPersonsFromDatabase(String order) {
+	    Session session = factory.openSession();
+	    Transaction tx = null;
+	    List persons = null;
+	        try {
+				tx = session.beginTransaction();
+		   		Query query = null;
+			    if (order.equals("last_name")){
+				    query = session.createQuery("from Person p ORDER BY p.lastName ASC");
+			    } else if (order.equals("date_hired")){
+					query = session.createQuery("from Person p ORDER BY p.dateHired ASC");
+			    } else {
+					query = session.createQuery("from Person p ORDER BY p.personId ASC");
+				}
+		        persons = query.list();
+			    tx.commit();
+			}catch (HibernateException e) {
+                if (tx!=null) tx.rollback();
+                e.printStackTrace();
+            }finally {
+                session.close();
+            }
+	    return persons;
     }
-  }
 
-  //option9
-  public void deletePersonContactDatabase(long contactId){
-    Session session = factory.openSession();
-    Transaction tx = null;
-    try{
-      tx = session.beginTransaction();
-      Contacts contacts = (Contacts)session.get(Contacts.class, contactId);
-      session.delete(contacts);
-      tx.commit();
-    }catch(RuntimeException e){
-      e.printStackTrace();
-    }finally{
-      session.close();
-    }
-  }
+    /*--------------------------------- fetching data --------------------------------------*/
 
-  public void listPersonsByOrder(String order){
-
-
-
-
-  }
-
-  //get all persons
-  public List<Person> getAllPersonsFromDatabase(){
-    Session session = factory.openSession();
-    Transaction tx = null;
-    List<Person> persons = new ArrayList<>(); 
-    try{
-      tx = session.beginTransaction();
-      persons = session.createQuery("from Person").list();
-      tx.commit();
-    }catch (RuntimeException e) {
-      e.printStackTrace();
-    }finally {
-      session.close();
-    }
-    return persons;
-  }
-
-  //use to display person contacts
-  public List<Contacts> getContactsPerson(long personId){
-    List<Contacts> contacts = new ArrayList<>();
-    Session session = factory.openSession();
-    Transaction tx = null;
-    try{
-      tx = session.beginTransaction();
-      String hql = "from Contacts where personid = :id";
-      Query query = session.createQuery(hql);
-      query.setParameter("id",personId);
-      contacts = query.list();
-      tx.commit();
-    }catch(RuntimeException e){
-      e.printStackTrace();
-    }finally{
-      session.close();
-    }
-    return contacts;
-  }
-
-  //use to check if person exist and updating person's info
-	public Person getPersonFromDatabase(long personId){	
+	//use to check if person exist and updating person's info
+	public Person getPersonById(long personId){
 		Session session = factory.openSession();
 		Person person= null;
+        Transaction tx = null;
 		try{
-      session.beginTransaction();
-      person = (Person) session.get(Person.class, personId);
-      session.getTransaction().commit();
-    }catch (HibernateException e) {
-			e.printStackTrace(); 
-    }finally {
-      session.close();
-    }
-    return person;
+			tx = session.beginTransaction();
+			person = (Person) session.get(Person.class, personId);
+			tx.commit();
+		}catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+		return person;
 	}
-  
+
+    //displaying address
+	public Address getPersonAddressById(long personId){
+		Session session = factory.openSession();
+        Transaction tx = null;
+		Address address = new Address();
+		try{
+			tx = session.beginTransaction();
+			Person person =(Person)session.get(Person.class, personId);
+            address = person.getAddress();
+			long addressId = address.getAddressId();
+			String hql = "from Address where addressId = :id";
+            Query query = session.createQuery(hql);
+			query.setParameter("id",addressId);
+			List <Address> addressList = new ArrayList <Address>();
+			addressList = query.list();
+			address = addressList.get(0);
+            tx.commit();
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
+		return address;
+	}
+
+
 
 }

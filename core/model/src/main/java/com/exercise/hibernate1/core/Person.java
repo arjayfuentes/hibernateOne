@@ -34,7 +34,7 @@ public class Person {
 		this.gwa=gwa;
 		this.dateHired=dateHired;
 		this.address=address;
-		
+
 	}
 
 	public long getPersonId() {
@@ -104,7 +104,7 @@ public class Person {
 	public float getGwa() {
 		return gwa;
 	}
-	
+
 	public void setGwa(float gwa) {
 		this.gwa = gwa;
 	}
@@ -120,7 +120,7 @@ public class Person {
 	public Address getAddress() {
 		return address;
 	}
-	
+
 	public void setAddress(Address address) {
 		this.address = address;
 	}
@@ -128,10 +128,10 @@ public class Person {
 	public List<Contacts> getContacts(){
 		return contacts;
 	}
-	
+
 	public void setContacts(List<Contacts> contacts){
 		this.contacts = contacts;
 	}
 
-	
+
 }
