@@ -11,7 +11,7 @@ public class ContactsDao {
 	private static SessionFactory factory = FactoryBuilder.buildSessionFactory();
 
 
-  //option 5
+        //option 5
 	public void addPersonContactDatabase(long personId,Contacts addCon){
 		Session session = factory.openSession();
 		Transaction tx = null;
@@ -47,7 +47,7 @@ public class ContactsDao {
 		}
 	}
 
-    //option 7
+        //option 7
 	public void deletePersonContactDatabase(long contactId){
 		Session session = factory.openSession();
 		Transaction tx = null;
