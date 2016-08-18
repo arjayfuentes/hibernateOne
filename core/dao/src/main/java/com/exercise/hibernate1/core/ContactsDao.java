@@ -8,12 +8,9 @@ import com.exercise.hibernate1.core.*;
 
 public class ContactsDao {
 
-	private static SessionFactory factory = FactoryBuilder.buildSessionFactory();
-
-
         //option 5
 	public void addPersonContactDatabase(long personId,Contacts addCon){
-		Session session = factory.openSession();
+		Session session = FactoryBuilder.getSessionFactory().openSession();
 		Transaction tx = null;
 		try{
 		  tx = session.beginTransaction();
@@ -31,7 +28,7 @@ public class ContactsDao {
 
   	//option 6
 	public void updatePersonContactDatabase(long contactId, String newContactValue){
-		Session session = factory.openSession();
+		Session session = FactoryBuilder.getSessionFactory().openSession();
 		Transaction tx = null;
 		try{
 		  tx = session.beginTransaction();
@@ -49,7 +46,7 @@ public class ContactsDao {
 
         //option 7
 	public void deletePersonContactDatabase(long contactId){
-		Session session = factory.openSession();
+		Session session = FactoryBuilder.getSessionFactory().openSession();
 		Transaction tx = null;
 		try{
 		  tx = session.beginTransaction();
@@ -69,7 +66,7 @@ public class ContactsDao {
   	//use to display person contacts
 	public List<Contacts> getPersonContactsById(long personId){
 		List<Contacts> contacts = new ArrayList<>();
-		Session session = factory.openSession();
+		Session session = FactoryBuilder.getSessionFactory().openSession();
 		Transaction tx = null;
 		try{
 		  tx = session.beginTransaction();

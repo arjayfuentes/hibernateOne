@@ -16,12 +16,12 @@ public class Options{
 	//option1
 	public void optionAddPerson(){
 		displayAllPersons();
-        	Person person = addPersonInfo();
+        Person person = addPersonInfo();
 		List<Contacts> contacts = addContactsInfo();
 		personService.addPerson(person,contacts);
-    		System.out.println("\n\t  ============== UPDATED LIST ==============");
+    	System.out.println("\n\t  ============== UPDATED LIST ==============");
 		displayAllPersons();
-    		System.out.println("Person successfully added to database");
+    	System.out.println("Person successfully added to database");
   	}
 
     //option2
@@ -42,12 +42,12 @@ public class Options{
 		if(emptyList==false){
 	    	long personId = check.checkInputPerson("ID number of the person you want to update ");
 	    	boolean continueUpdate = true;
-		displayPersonInformation(personId);
+			displayPersonInformation(personId);
 	    	Person updatedPerson = personService.getPersonById(personId);
 	    	Date dateHired = updatedPerson.getDateHired();
-		displayUpdateMenu();
-		int minChoice = 1;
-		int maxChoice = 10;
+			displayUpdateMenu();
+			int minChoice = 1;
+			int maxChoice = 10;
 	    	while(continueUpdate==true){
 			int updateInfo = check.inputNumber(" corresponding number of the info you want to update.", minChoice, maxChoice);
 		    	switch(updateInfo){
@@ -64,44 +64,49 @@ public class Options{
 		    			updatedPerson.setLastName(lastName);
 		    			break;
 		    		case 4:
-		    			String suffix = check.inputString("suffix");
+		    			String suffix = check.inputString("suffix or type (na) ");
 		    			updatedPerson.setSuffix(suffix);
 		    			break;
 		    		case 5:
-					String title = check.inputString("title");
-					updatedPerson.setTitle(title);
-					break;
-				case 6:
-					Date birthDate = check.inputDate("date of birth");
-					updatedPerson.setBirthDate(birthDate);
-					break;
-				case 7:
-					boolean employed = check.inputYesOrNo("Currently Employed?");
-					updatedPerson.setEmployed(employed);
-					if(updatedPerson.getEmployed()==false){
-						dateHired = null;
-						updatedPerson.setDateHired(dateHired);
-					}
-					break;
-				case 8:
-					float gwa = check.inputGwa();
-					updatedPerson.setGwa(gwa);
-					break;
-				case 9:
-					if(updatedPerson.getEmployed()==true){
-						dateHired = check.inputDate("date hired");
-						updatedPerson.setDateHired(dateHired);
-					}
-					else{
-						System.out.println("Person not employed. Can't update date hired. If currently employed update employement status first");
-					}
-					break;
-				case 10:
-					Address address = addAddressInfo();
-					updatedPerson.setAddress(address);
-					break;
-					default:
-					break;
+						String title = check.inputString("title");
+						updatedPerson.setTitle(title);
+						break;
+					case 6:
+						Date birthDate = check.inputDate("date of birth");
+						updatedPerson.setBirthDate(birthDate);
+						break;
+					case 7:
+						boolean employed = check.inputYesOrNo("Currently Employed?");
+						updatedPerson.setEmployed(employed);
+						if(updatedPerson.getEmployed()==false){
+							dateHired = null;
+							updatedPerson.setDateHired(dateHired);
+						}
+						else{
+							System.out.println("Employment Status now set to yes. Upd. ate hired date");
+							dateHired = check.inputDate("date hired");
+							updatedPerson.setDateHired(dateHired);
+						}
+						break;
+					case 8:
+						float gwa = check.inputGwa();
+						updatedPerson.setGwa(gwa);
+						break;
+					case 9:
+						if(updatedPerson.getEmployed()==true){
+							dateHired = check.inputDate("date hired");
+							updatedPerson.setDateHired(dateHired);
+						}
+						else{
+							System.out.println("Person not employed. Can't update date hired. If currently employed update employement status first");
+						}
+						break;
+					case 10:
+						Address address = addAddressInfo();
+						updatedPerson.setAddress(address);
+						break;
+						default:
+						break;
 				}
 				continueUpdate = check.inputYesOrNo("Update another info to this person ? ");
 			}
@@ -231,12 +236,12 @@ public class Options{
 		String firstName = check.inputString("First Name");
 		String middleName = check.inputString("Middle Name");
 		String lastName = check.inputString("Last Name");
-		String suffix = check.inputString("Suffix");
+		String suffix =check.inputString("suffix or type (na) ");
 		String title = check.inputString("Title");
 		Date birthDate = check.inputDate("Date of Birth");
 		boolean employed = check.inputYesOrNo("Currently Employed?");
 		float gwa = check.inputGwa();
-		Date dateHired=null;	
+		Date dateHired=null;
 		if(employed==true){
 			dateHired = check.inputDate("Date hired");
 		}
@@ -245,9 +250,9 @@ public class Options{
 		}
 		Address address = addAddressInfo();
 
-        	Person person = new Person(firstName, middleName,lastName, suffix, title,
+        Person person = new Person(firstName, middleName,lastName, suffix, title,
 		birthDate,employed,gwa, dateHired, address);
-    		return person;
+    	return person;
 	}
 
 	public Address addAddressInfo(){

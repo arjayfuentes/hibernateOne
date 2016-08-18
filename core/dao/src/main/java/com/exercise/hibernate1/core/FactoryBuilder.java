@@ -5,19 +5,18 @@ import org.hibernate.cfg.*;
 
 public class FactoryBuilder {
 
-	private static SessionFactory sessionFactory;
+	    private static final SessionFactory sessionFactory = buildSessionFactory();
 
-	public static SessionFactory buildSessionFactory() {
-    	try{
-			return new Configuration().configure("/com/exercise/hibernate1/infra/hibernate.cfg.xml").buildSessionFactory();
-		}catch (Throwable ex) {
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex);
-		}
-	}
+	    private static SessionFactory buildSessionFactory() {
+	        try {
+	            return new Configuration().configure("/com/exercise/hibernate1/infra/hibernate.cfg.xml").buildSessionFactory();
+	        } catch (Throwable ex) {
+	            System.err.println("SessionFactory creation failed." + ex);
+	            throw new ExceptionInInitializerError(ex);
+	        }
+	    }
 
-	public static SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-
+	    public static SessionFactory getSessionFactory() {
+	        return sessionFactory;
+	    }
 }

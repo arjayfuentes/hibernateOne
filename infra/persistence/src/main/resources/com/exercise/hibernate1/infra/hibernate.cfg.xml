@@ -12,8 +12,7 @@
 
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
         <property name="show_sql">false</property>
-       <!-- <property name="hibernate.hbm2ddl.auto">create</property> -->
-
+                         <!-- <property name="hibernate.hbm2ddl.auto">create</property> -->
         <mapping resource="com/exercise/hibernate1/infra/Person.hbm.xml"/>
         <mapping resource="com/exercise/hibernate1/infra/Address.hbm.xml"/>
         <mapping resource="com/exercise/hibernate1/infra/Contacts.hbm.xml"/>

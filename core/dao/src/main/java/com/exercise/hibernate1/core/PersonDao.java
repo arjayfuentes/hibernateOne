@@ -8,15 +8,14 @@ import com.exercise.hibernate1.core.*;
 
 public class PersonDao {
 
-	private static SessionFactory factory = FactoryBuilder.buildSessionFactory();
 
   	//option1
 	public void addPersonDatabase(Person person){
-		Session session = factory.openSession();
+		Session session = FactoryBuilder.getSessionFactory().openSession();
 		Transaction tx = null;
 		try{
 			tx = session.beginTransaction();
-			session.persist(person);
+			session.save(person);
             tx.commit();
         }catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -28,7 +27,7 @@ public class PersonDao {
 
     //option2
     public void deletePersonFromDatabase(long personId){
-		Session session = factory.openSession();
+		Session session = FactoryBuilder.getSessionFactory().openSession();
         Transaction tx = null;
 		try{
             tx = session.beginTransaction();
@@ -45,7 +44,7 @@ public class PersonDao {
 
     //option3
     public void updatePersonToDatabase(long personId, Person updatedPerson){
-        Session session = factory.openSession();
+        Session session = FactoryBuilder.getSessionFactory().openSession();
         Transaction tx = null;
 		Address address = null;
         try{
@@ -73,7 +72,7 @@ public class PersonDao {
 
     //option 4 GWA
 	public List<Person> getAllPersonsFromDatabase(){
-		Session session = factory.openSession();
+		Session session = FactoryBuilder.getSessionFactory().openSession();
 		Transaction tx = null;
 		List<Person> persons = new ArrayList<>();
 		try{
@@ -91,7 +90,7 @@ public class PersonDao {
 
 	//options 4 date hired and last name
 	public List<Person> getPersonsFromDatabase(String order) {
-		Session session = factory.openSession();
+		Session session = FactoryBuilder.getSessionFactory().openSession();
 		Transaction tx = null;
 	    	List persons = null;
 	        try {
@@ -115,11 +114,11 @@ public class PersonDao {
 		return persons;
 	}
 
-    	/*--------------------------------- fetching data --------------------------------------*/
+    /*--------------------------------- fetching data --------------------------------------*/
 
 	//use to check if person exist and updating person's info
 	public Person getPersonById(long personId){
-		Session session = factory.openSession();
+		Session session = FactoryBuilder.getSessionFactory().openSession();
 		Person person= null;
         	Transaction tx = null;
 		try{
@@ -127,37 +126,37 @@ public class PersonDao {
 			person = (Person) session.get(Person.class, personId);
 			tx.commit();
 		}catch (HibernateException e) {
-            		if (tx!=null) tx.rollback();
-            		e.printStackTrace();
-        	}finally {
-            		session.close();
-        	}
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        }finally {
+            session.close();
+        }
 		return person;
 	}
 
     	//displaying address
 	public Address getPersonAddressById(long personId){
-		Session session = factory.openSession();
-        	Transaction tx = null;
+		Session session = FactoryBuilder.getSessionFactory().openSession();
+        Transaction tx = null;
 		Address address = new Address();
 		try{
 			tx = session.beginTransaction();
 			Person person =(Person)session.get(Person.class, personId);
-            		address = person.getAddress();
+            address = person.getAddress();
 			long addressId = address.getAddressId();
 			String hql = "from Address where addressId = :id";
-            		Query query = session.createQuery(hql);
+            Query query = session.createQuery(hql);
 			query.setParameter("id",addressId);
 			List <Address> addressList = new ArrayList <Address>();
 			addressList = query.list();
 			address = addressList.get(0);
-            		tx.commit();
-        	}catch (HibernateException e) {
-            		if (tx!=null) tx.rollback();
-            		e.printStackTrace();
-        	}finally {
-            		session.close();
-        	}
+            tx.commit();
+        }catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+       	}finally {
+            session.close();
+        }
 		return address;
 	}
 

@@ -13,11 +13,11 @@ public class Validation {
 	private Scanner read = new Scanner (System.in);
 	private PersonService personService = new PersonService();
 
-	public int inputNumber(String message){
+	public int inputNumber(String numberType){
 		int number=0;
-		System.out.printf("Enter %s: ",message);
+		System.out.printf("Enter %s: ",numberType);
 		while (!read.hasNextInt()) {
-			System.out.printf("Not a number! Enter %s: ",message);
+			System.out.printf("Not a number! Enter %s: ",numberType);
 			read.next();
 		}
 		number = read.nextInt();
@@ -25,11 +25,11 @@ public class Validation {
 		return number;
 	}
 
-	public long inputIdNumber(String message){
+	public long inputIdNumber(String numberType){
 		long number=0;
-		System.out.printf("Enter %s: ",message);
+		System.out.printf("Enter %s: ",numberType);
 		while (!read.hasNextLong()) {
-			System.out.printf("Not a number! Enter %s: ",message);
+			System.out.printf("Not a number! Enter %s: ",numberType);
 			read.next();
 		}
 		number = read.nextLong();
@@ -37,12 +37,12 @@ public class Validation {
 		return number;
 	}
 
-	public int inputNumber(String message, int min, int max){
+	public int inputNumber(String numberType, int min, int max){
 		int number=0;
 		do {
-			System.out.print("Enter"+message+"("+min+"-"+max+"): ");
+			System.out.print("Enter"+numberType+"("+min+"-"+max+"): ");
 			while (!read.hasNextInt()) {
-				System.out.printf("Not a number! Enter"+message+"("+min+"-"+max+"): ");
+				System.out.printf("Not a number! Enter"+numberType+"("+min+"-"+max+"): ");
 				read.next();
 			}
 			number = read.nextInt();
@@ -54,12 +54,12 @@ public class Validation {
 	  	return number;
 	}
 
-	public int inputNumber(String message,int length){
+	public int inputNumber(String numberType,int length){
 		int number=0;
 		do {
-			System.out.printf("Enter %s (%d digits): ",message,length);
+			System.out.printf("Enter %s (%d digits): ",numberType,length);
 			while (!read.hasNextInt()) {
-			  	System.out.printf("Not a number! Enter %s (%d digits): ",message,length);
+			  	System.out.printf("Not a number! Enter %s (%d digits): ",numberType,length);
 			  	read.next();
 			}
 			number = read.nextInt();
@@ -71,13 +71,13 @@ public class Validation {
 		return number;
 	}
 
-	public String inputContactNumber(String message,int length){
+	public String inputContactNumber(String contactType,int length){
 		long number=0;
 		String numberFinal= null;
 		do {
-			System.out.printf("Enter %s (%d digits): ",message,length);
+			System.out.printf("Enter %s (%d digits): ",contactType,length);
 			while (!read.hasNextLong()) {
-			  	System.out.printf("Not a number! Enter %s (%d digits): ",message,length);
+			  	System.out.printf("Not a number! Enter %s (%d digits): ",contactType,length);
 			  	read.next();
 			}
 			numberFinal = read.next();
@@ -89,12 +89,12 @@ public class Validation {
 		return numberFinal;
 	}
 
-	public String inputString(String message){
-		System.out.print("Enter "+message+": ");
+	public String inputString(String stringType){
+		System.out.print("Enter "+stringType+": ");
 		String string = read.nextLine();
 		while (string.length()==0){
 		   if(string.length()==0){
-		   System.out.print("Empty input. Re-enter "+message+": ");
+		   System.out.print("Empty input. Re-enter "+stringType+": ");
 		   }
 		   string = read.nextLine();
 		}
@@ -165,8 +165,8 @@ public class Validation {
 		return ask;
 	}
 
-	public Date inputDate(String message){
-		System.out.print("Enter "+message+" (MM/DD/YYYY): ");
+	public Date inputDate(String dateType){
+		System.out.print("Enter "+dateType+" (MM/DD/YYYY): ");
 		String input = read.nextLine();
 		while(!input.matches("([0-9]{2})/([0-9]{2})/([0-9]{4})")){
 				System.out.print("Invalid date format. Re-enter date: ");
@@ -183,15 +183,15 @@ public class Validation {
 	}
 
 	public long checkInputPerson(String message){
-	    long personId= 0;
-	    do{
-	    		personId = inputIdNumber(message);
-	    		if(personService.checkPersonIfExist(personId)==false){
-	    			System.out.print("Id number not exist! ");
-	    		}
-	    	}while((personService.checkPersonIfExist(personId)) == false);
-	   	return personId;
-	}
+    long personId= 0;
+    do{
+    		personId = inputIdNumber(message);
+    		if(personService.checkPersonIfExist(personId)==false){
+    			System.out.print("Id number not exist! ");
+    		}
+    	}while((personService.checkPersonIfExist(personId)) == false);
+    	return personId;
+    }
 
 	public long checkInputContact(String message, long personId){
     	long contactId= 0;
@@ -202,6 +202,6 @@ public class Validation {
     		}
     	}while((personService.checkContactIfExist(personId, contactId)) == false);
         return contactId;
-  	}
-
+  }
 }
+
